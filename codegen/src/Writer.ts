@@ -209,7 +209,7 @@ export abstract class Writer {
         }
     }
 
-    protected varableDecl(name: string, type: GraphQLType, overrideObjectTypeName?: string) {
+    protected variableDecl(name: string, type: GraphQLType, overrideObjectTypeName?: string) {
         this.text(name);
         if (!(type instanceof GraphQLNonNull)) {
             this.text("?");

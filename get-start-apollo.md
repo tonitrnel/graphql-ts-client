@@ -16,7 +16,7 @@ Choose any another dir, execute
 yarn create react-app <YourAppName> --template typescript
 ```
 
-### 3. Add dendpenceis
+### 3. Add dependence
 
 Goto the root dir of your app, execute
 ```
@@ -65,7 +65,7 @@ yarn codegen
 ``` 
 *Notes:*
 
-*This is a one-time job! Be different with code generator of other similar frameworks or the compiler of relay, you need not to generate code again and again.*
+*This is a one-time job! Be different with code generator of other similar frameworks or the compiler of relay, you need not generate code again and again.*
 
 *After this step, you can forget the code generator until the server-side team tell you their interface has been changed.*
 

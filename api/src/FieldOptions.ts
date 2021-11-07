@@ -4,10 +4,10 @@ import { UnresolvedVariables } from "./Parameter";
 export interface FieldOptions<
     TAlias extends string, 
     TDirectives extends { readonly [key: string]: DirectiveArgs },
-    TDirectiveVaraibles extends object
+    TDirectiveVariables extends object
 > {
     
-    alias<XAlias extends string>(alias: XAlias): FieldOptions<XAlias, TDirectives, TDirectiveVaraibles>;
+    alias<XAlias extends string>(alias: XAlias): FieldOptions<XAlias, TDirectives, TDirectiveVariables>;
 
     directive<
         XDirective extends string, 
@@ -18,19 +18,19 @@ export interface FieldOptions<
     ): FieldOptions<
         TAlias, 
         TDirectives & { readonly [key in XDirective]: XArgs },
-        TDirectiveVaraibles & UnresolvedVariables<XArgs, Record<keyof XArgs, any>>
+        TDirectiveVariables & UnresolvedVariables<XArgs, Record<keyof XArgs, any>>
     >;
 
     readonly value: FieldOptionsValue;
 
-    " $supressWarnings"(alias: TAlias, directives: TDirectives, directiveVariables: TDirectiveVaraibles): void;
+    " $suppressWarnings"(alias: TAlias, directives: TDirectives, directiveVariables: TDirectiveVariables): void;
 }
 
 class FieldOptionsImpl<
     TAlias extends string, 
     TDirectives extends { readonly [key: string]: DirectiveArgs },
-    TDirectiveVaraibles extends object
-> implements FieldOptions<TAlias, TDirectives, TDirectiveVaraibles> {
+    TDirectiveVariables extends object
+> implements FieldOptions<TAlias, TDirectives, TDirectiveVariables> {
 
     private _value?: FieldOptionsValue;
 
@@ -42,8 +42,8 @@ class FieldOptionsImpl<
     ) {
     }
 
-    alias<XAlias extends string>(alias: XAlias): FieldOptions<XAlias, TDirectives, TDirectiveVaraibles> {
-        return new FieldOptionsImpl<XAlias, TDirectives, TDirectiveVaraibles>(this, alias);
+    alias<XAlias extends string>(alias: XAlias): FieldOptions<XAlias, TDirectives, TDirectiveVariables> {
+        return new FieldOptionsImpl<XAlias, TDirectives, TDirectiveVariables>(this, alias);
     }
 
     directive<
@@ -55,15 +55,15 @@ class FieldOptionsImpl<
     ): FieldOptions<
         TAlias, 
         TDirectives & { readonly [key in XDirective]: XArgs},
-        TDirectiveVaraibles & UnresolvedVariables<XArgs, Record<keyof XArgs, any>>
+        TDirectiveVariables & UnresolvedVariables<XArgs, Record<keyof XArgs, any>>
     > {
         if (directive.startsWith("@")) {
-            throw new Error("directive name should not start with '@' because it will be prepended by this framework automatcially"); 
+            throw new Error("directive name should not start with '@' because it will be prepended by this framework automatically");
         }
         return new FieldOptionsImpl<
             TAlias, 
             TDirectives & { readonly [key in XDirective]: XArgs},
-            TDirectiveVaraibles & UnresolvedVariables<XArgs, XArgs>
+            TDirectiveVariables & UnresolvedVariables<XArgs, XArgs>
         >(this, undefined, directive, args);
     }
 
@@ -90,8 +90,8 @@ class FieldOptionsImpl<
         return { alias, directives };
     }
 
-    " $supressWarnings"(alias: TAlias, directives: TDirectives, directiveVariables: TDirectiveVaraibles): void {
-        throw new Error('" $supressWarnings" is unsupported');
+    " $suppressWarnings"(alias: TAlias, directives: TDirectives, directiveVariables: TDirectiveVariables): void {
+        throw new Error('" $suppressWarnings" is unsupported');
     }
 }
 

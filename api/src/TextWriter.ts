@@ -10,7 +10,7 @@ export class TextWriter {
 
     text(value: string) {
         const scope = this.currentScope();
-        if (value.length !== 0 && scope !== undefined && scope.dirty === false) {
+        if (value.length !== 0 && scope !== undefined && !scope.dirty) {
             if (scope.multiLines) {
                 this.addLineTerminator();
             }
@@ -35,20 +35,20 @@ export class TextWriter {
         props: {
             readonly type: ScopeType, 
             readonly multiLines?: boolean, 
-            readonly seperator?: string,
+            readonly separator?: string,
             readonly prefix?: string,
             readonly suffix?: string
         },
         action: () => void
     ) {
-        let seperator: string | undefined = props.seperator;
-        if (seperator === undefined) {
+        let separator: string | undefined = props.separator;
+        if (separator === undefined) {
             switch (props.type) {
                 case 'ARGUMENTS':
-                    seperator = ', ';
+                    separator = ', ';
                     break;
                 case 'ARRAY':
-                    seperator = ', ';
+                    separator = ', ';
                     break;
                 }
         }
@@ -69,7 +69,7 @@ export class TextWriter {
         this.scopes.push({
             type: props.type,
             multiLines: !!props.multiLines,
-            seperator,
+            separator: separator,
             dirty: false
         });
         try {
@@ -96,16 +96,16 @@ export class TextWriter {
         }
     }
 
-    seperator(sperator?: string) {
+    separator(separator?: string) {
         const scope = this.currentScope();
         if (scope === undefined) {
             throw new Error("No existing scope");
         }
         if (scope.dirty) {
-            if (sperator !== undefined && sperator.length !== 0) {
-                this.text(sperator);
-            } else if (scope.seperator !== undefined) {
-                this.text(scope.seperator);
+            if (separator !== undefined && separator.length !== 0) {
+                this.text(separator);
+            } else if (scope.separator !== undefined) {
+                this.text(scope.separator);
             }
             if (scope.multiLines) {
                 this.addLineTerminator();
@@ -147,6 +147,6 @@ export type ScopeType = "BLOCK" | "ARGUMENTS" | "ARRAY";
 interface Scope {
     readonly type: ScopeType;
     readonly multiLines: boolean;
-    readonly seperator: string | undefined;
+    readonly separator: string | undefined;
     dirty: boolean;
 }

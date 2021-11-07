@@ -48,8 +48,8 @@ import { Fetcher, TextWriter, util } from "graphql-ts-client-api";
 
 export type GraphQLExecutor = (request: string, variables: object) => Promise<any>;
 
-export function setGraphQLExecutor(exeucotr: GraphQLExecutor) {
-    graphQLExecutor = exeucotr;
+export function setGraphQLExecutor(executor: GraphQLExecutor) {
+    graphQLExecutor = executor;
 }
 
 export async function execute<TData extends object, TVariables extends object>(

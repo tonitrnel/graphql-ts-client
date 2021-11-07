@@ -102,7 +102,7 @@ class FetchableTypeImpl<E extends string> implements FetchableType<E> {
             if (node.category !== "REFERENCE") {
                 throw new Error(
                     `Illegal fetchable type "${name}", ` +
-                    `its category cannot be "CONNECTION" because its field "node" is not referece`
+                    `its category cannot be "CONNECTION" because its field "node" is not reference`
                 );
             }
             const cursor = declaredFields.get("cursor");
@@ -115,7 +115,7 @@ class FetchableTypeImpl<E extends string> implements FetchableType<E> {
             if (cursor.category !== "SCALAR") {
                 throw new Error(
                     `Illegal fetchable type "${name}", ` +
-                    `its category cannot be "CONNECTION" because its field "cursor" is not referece`
+                    `its category cannot be "CONNECTION" because its field "cursor" is not reference`
                 );
             }
         }

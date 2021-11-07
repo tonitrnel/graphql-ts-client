@@ -68,7 +68,6 @@ export class DependencyManager {
 
     private registerTypes(resource: string, fetchers: readonly Fetcher<string, object, object>[]) {
         for (const fetcher of fetchers) {
-            const isOperation = isOperationFetcher(fetcher);
             for (const [fieldName, field] of fetcher.fieldMap) {
                 if (!fieldName.startsWith("...")) {
                     const declaringTypeNames = getDeclaringTypeNames(fieldName, fetcher);
@@ -122,7 +121,7 @@ export class DependencyManager {
         }
 
         for (const [fieldName, field] of fetcher.fieldMap) {
-            if (fieldName.startsWith("...")) { // Fragment, not assocaition
+            if (fieldName.startsWith("...")) { // Fragment, not association
                 if (field.childFetchers !== undefined) {
                     for (const childFetcher of field.childFetchers) {
                         this.collectResources(childFetcher, oldObject, newObject, output);
@@ -134,7 +133,7 @@ export class DependencyManager {
                 if (field.childFetchers !== undefined && field.childFetchers.length !== 0) { // association
                     if (oldValue !== newValue) { // Not both undefined
                         for (const childFetcher of field.childFetchers) {
-                            this.collectResourcesByAssocaiton(fetcher, fieldName, childFetcher, oldValue, newValue, output);
+                            this.collectResourcesByAssociation(fetcher, fieldName, childFetcher, oldValue, newValue, output);
                         }
                     }
                 } else if (!scalarEqual(oldValue, newValue)) { // scalar
@@ -150,7 +149,7 @@ export class DependencyManager {
         }
     }
 
-    private collectResourcesByAssocaiton(
+    private collectResourcesByAssociation(
         parentFetcher: Fetcher<string, object, object>,
         fieldName: string,
         childFetcher: Fetcher<string, object, object>, 
@@ -189,7 +188,7 @@ export class DependencyManager {
             this.collectResources(childFetcher, oldAssociation, newAssociation, output);
         } else {
             const declaringType = getDeclaringTypeNames(fieldName, parentFetcher)[0];
-            console.warn(`Illegal data, cannot compare the data ${oldAssociation} and ${newAssociation} for the assocaiton ${declaringType}.${fieldName}`);
+            console.warn(`Illegal data, cannot compare the data ${oldAssociation} and ${newAssociation} for the association ${declaringType}.${fieldName}`);
         }
     }
 

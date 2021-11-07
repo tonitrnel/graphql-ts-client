@@ -31,7 +31,7 @@ export interface Fetcher<E extends string, T extends object, TVariables extends 
 
     variableTypeMap: ReadonlyMap<string, string>;
 
-    " $supressWarnings"(_1: T, _2: TVariables): never;
+    " $suppressWarnings"(_1: T, _2: TVariables): never;
 }
 
 export interface ObjectFetcher<E extends string, T extends object, TVariables extends object> extends Fetcher<E, T, TVariables> {
@@ -121,7 +121,7 @@ export abstract class AbstractFetcher<E extends string, T extends object, TVaria
         ) as F;
     }
 
-    protected addEmbbeddable<F extends AbstractFetcher<string, object, object>>(
+    protected addEmbeddable<F extends AbstractFetcher<string, object, object>>(
         child: AbstractFetcher<string, object, object>,
         fragmentName?: string
     ): F {
@@ -197,7 +197,7 @@ export abstract class AbstractFetcher<E extends string, T extends object, TVaria
                 let childFetchers = fieldMap.get(fetcher._field)?.childFetchers as AbstractFetcher<string, object, object>[];
                 if (childFetchers === undefined) {
                     childFetchers = [];
-                    fieldMap.set(fetcher._field, { plural: false, childFetchers }); // Fragment cause mutliple child fetchers
+                    fieldMap.set(fetcher._field, { plural: false, childFetchers }); // Fragment cause multiple child fetchers
                 }
                 childFetchers.push(fetcher._child!);
             } else {
@@ -318,8 +318,8 @@ export abstract class AbstractFetcher<E extends string, T extends object, TVaria
         };
     }
 
-    " $supressWarnings"(_: T, _2: TVariables): never {
-        throw new Error("' $supressWarnings' is not supported");
+    " $suppressWarnings"(_: T, _2: TVariables): never {
+        throw new Error("' $suppressWarnings' is not supported");
     }
 }
 
@@ -446,9 +446,9 @@ class ResultContext {
             hasField = Object.keys(args).length !== 0;
         }
         if (hasField) {
-            this.writer.scope({type: "ARGUMENTS", multiLines: isMultLineJSON(args)}, () => {
+            this.writer.scope({type: "ARGUMENTS", multiLines: isMultiLineJSON(args)}, () => {
                 for (const argName in args) {
-                    this.writer.seperator();
+                    this.writer.separator();
                     const arg = args[argName];
                     let argGraphQLTypeName: string | undefined;
                     if (argGraphQLTypeMap !== undefined) {
@@ -458,7 +458,7 @@ class ResultContext {
                                 const parameterRef = arg as ParameterRef<string>;
                                 if (parameterRef.graphqlTypeName !== undefined && parameterRef.graphqlTypeName !== argGraphQLTypeName) {
                                     throw new Error(
-                                        `Argument '${parameterRef.name}' has conflict type, the type of paremter '${argName}' is '${argGraphQLTypeName}' ` +
+                                        `Argument '${parameterRef.name}' has conflict type, the type of parameter '${argName}' is '${argGraphQLTypeName}' ` +
                                         `but the graphqlTypeName of ParameterRef is '${parameterRef.graphqlTypeName}'`
                                     );
                                 }
@@ -482,7 +482,7 @@ class ResultContext {
                         if (arg[" $__instanceOfParameterRef"]) {
                             const parameterRef = arg as ParameterRef<string>;
                             if (parameterRef.graphqlTypeName === undefined) {
-                                throw new Error(`The graphqlTypeName of directive argument '${parameterRef.name}' is not specifed`);
+                                throw new Error(`The graphqlTypeName of directive argument '${parameterRef.name}' is not specified`);
                             }
                             this.variableTypeMap.set(parameterRef.name, parameterRef.graphqlTypeName);
                             t(`${argName}: $${parameterRef.name}`);
@@ -517,20 +517,20 @@ class ResultContext {
         } else if (Array.isArray(value) || value instanceof Set) {
             this.writer.scope({type: "ARRAY"}, () => {
                 for (const e of value) {
-                    this.writer.seperator();
+                    this.writer.separator();
                     this.acceptLiteral(e);
                 }
             });
         } else if (value instanceof Map) {
             for (const [k, v] of value) {
-                this.writer.seperator();
+                this.writer.separator();
                 this.acceptMapKey(k);
                 t(": ");
                 this.acceptLiteral(v);
             }
         } else if (typeof value === 'object') {
             for (const k in value) {
-                this.writer.seperator();
+                this.writer.separator();
                 this.acceptMapKey(k);
                 t(": ");
                 this.acceptLiteral(value[k]);
@@ -549,7 +549,7 @@ class ResultContext {
     }
 }
 
-function isMultLineJSON(obj: any): boolean {
+function isMultiLineJSON(obj: any): boolean {
     let size = 0;
     if (Array.isArray(obj)) {
         for (const value of obj) {

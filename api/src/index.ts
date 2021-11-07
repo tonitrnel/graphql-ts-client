@@ -23,10 +23,10 @@ import { toMd5 } from "./util/Md5";
 import { exceptNullValues } from './util/NullValues';
 import { iterateMap } from './util/MapIterator';
 
-interface UtilInterace {
+interface UtilInterface {
     toMd5(value: string): string;
     exceptNullValues<T>(value: T): T;
     iterateMap<K, V>(map: ReadonlyMap<K, V>, onEach: (pair: [K, V]) => void): void;
 }
 
-export const util: UtilInterace = { toMd5, exceptNullValues, iterateMap };
+export const util: UtilInterface = { toMd5, exceptNullValues, iterateMap };

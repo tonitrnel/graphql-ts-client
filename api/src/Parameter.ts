@@ -22,7 +22,7 @@ export type AcceptableVariables<T extends object> = {
 };
 
 export type UnresolvedVariables<T, TVariables> = 
-    ReversedType<UnsrolvedNames<UnresolvedRefs<T>>, TVariables>;
+    ReversedType<UnsolvedNames<UnresolvedRefs<T>>, TVariables>;
 
 type UnresolvedRefs<TVariables> = Pick<
     TVariables,
@@ -31,7 +31,7 @@ type UnresolvedRefs<TVariables> = Pick<
     }[keyof TVariables]
 >;
 
-type UnsrolvedNames<TUnresolvedVariableRefs> = { 
+type UnsolvedNames<TUnresolvedVariableRefs> = {
     [K in keyof TUnresolvedVariableRefs]: ParameterRefName<TUnresolvedVariableRefs[K]> 
 };
 

@@ -13,7 +13,6 @@ import { GraphQLSchema } from 'graphql';
 import { buildSchema, getIntrospectionQuery } from 'graphql/utilities';
 import { buildClientSchema } from 'graphql/utilities';
 import fetch from 'node-fetch';
-import { join } from 'path';
 
 export async function loadRemoteSchema(
     endpoint: string,

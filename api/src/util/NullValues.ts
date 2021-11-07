@@ -17,12 +17,12 @@
  *          readonly c: T | null;
  *      }
  * 
- * 'b' and 'a' are are compatible, but 'c' and 'a' are not. the code generator of this framwork always generates nullable data like 'a'
+ * 'b' and 'a' are compatible, but 'c' and 'a' are not. the code generator of this framework always generates nullable data like 'a'
  * 
- * This framework processes the response data tree, convert it's null values to undefined, but met some problem when integrates with Apollo
+ * This framework processes the response data tree, convert its null values to undefined, but met some problem when integrates with Apollo
  * 
  * 1. Try to process the returned data of hook, and replace its null values to undefined, Apollo says data object is readonly.
- * 2. Try to use ApolloLink to intercept the reponse and change its data, Apollo says some fields are missing when write object into cache.
+ * 2. Try to use ApolloLink to intercept the response and change its data, Apollo says some fields are missing when write object into cache.
  */
 
 export function exceptNullValues<T>(value: T): T {

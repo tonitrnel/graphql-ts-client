@@ -9,7 +9,7 @@
  */
 
 import { WriteStream } from "fs";
-import { GraphQLField, GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLUnionType } from "graphql";
+import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLUnionType } from "graphql";
 import { join } from "path";
 import { FetcherContext } from "../FetcherContext";
 import { closeStream, createStreamAndLog, Generator } from "../Generator";
@@ -48,7 +48,7 @@ export class GraphQLStateGenerator extends Generator {
         return super.additionalExportedTypeNamesForFetcher(modelType, ctx);
     }
 
-    protected createFetcheWriter(
+    protected createFetchWriter(
         modelType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType,
         ctx: FetcherContext,
         stream: WriteStream,

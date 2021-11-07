@@ -2,7 +2,6 @@ import { WriteStream } from "fs";
 import { GraphQLInterfaceType, GraphQLObjectType, GraphQLSchema, GraphQLUnionType } from "graphql";
 import { join } from "path";
 import { FetcherContext } from "../FetcherContext";
-import { FetcherWriter } from "../FetcherWriter";
 import { closeStream, createStreamAndLog, Generator } from "../Generator";
 import { GeneratorConfig } from "../GeneratorConfig";
 import { RelayFetcherWriter } from "./RelayFetcherWriter";
@@ -14,7 +13,7 @@ export class RelayGenerator extends Generator {
         super(config);
     }
 
-    protected createFetcheWriter(
+    protected createFetchWriter(
         modelType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType,
         ctx: FetcherContext,
         stream: WriteStream,

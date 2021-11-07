@@ -14,11 +14,11 @@ import { createFieldOptions, FieldOptionsValue } from './FieldOptions';
 import { ParameterRef } from './Parameter';
 
 /*
- * In order to reduce compacity of compiled target code,
+ * In order to reduce capacity of compiled target code,
  * the code generator does not generate derived classes of AbstractFetcher.
  *  
  * Code generator only generates derived interfaces of Fetcher(
- * interfaces cannot affect the capacity of compilied targe code
+ * interfaces cannot affect the capacity of compiled target code
  * ), and this "createFetcher" method uses proxies to create instances of those interfaces.
  */
 export function createFetcher<E extends string, F extends Fetcher<E, object, object>>(
@@ -102,7 +102,7 @@ function proxyHandler(
         }
     };
      return handler;
-};
+}
  
 function methodProxyHandler(
     targetFetcher: AbstractFetcher<string, object, object>, 
@@ -121,9 +121,9 @@ function methodProxyHandler(
                     const addField = Reflect.get(targetFetcher, "addField") as ADD_FILED;
                     parentFetcher = addField.call(targetFetcher, "__typename");
                 }
-                const addEmbbeddable = Reflect.get(parentFetcher, "addEmbbeddable") as ADD_EMBBEDDABLE;
+                const addEmbeddable = Reflect.get(parentFetcher, "addEmbeddable") as ADD_EMBEDDABLE;
                 return new Proxy(
-                    addEmbbeddable.call(parentFetcher, childFetcher, fragmentName),
+                    addEmbeddable.call(parentFetcher, childFetcher, fragmentName),
                     handler
                 );
             } else if (field === "directive") {
@@ -178,7 +178,7 @@ type REMOVE_FILED = (
     child?: AbstractFetcher<string, object, object>
 ) => AbstractFetcher<string, object, object>;
  
-type ADD_EMBBEDDABLE = (
+type ADD_EMBEDDABLE = (
     child: AbstractFetcher<string, object, object>,
     fragmentName?: string
 ) => AbstractFetcher<string, object, object>;

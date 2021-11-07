@@ -9,7 +9,7 @@
  */
 
 import { WriteStream } from "fs";
-import { GraphQLInputObjectType, GraphQLInterfaceType, GraphQLNamedType, GraphQLNonNull, GraphQLObjectType } from "graphql";
+import { GraphQLInputObjectType, GraphQLNamedType, GraphQLNonNull } from "graphql";
 import { GeneratorConfig } from "./GeneratorConfig";
 import { ImportingBehavior, Writer } from "./Writer";
 
