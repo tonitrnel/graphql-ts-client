@@ -18,7 +18,7 @@ export interface GeneratorConfig {
     readonly objectEditable?: boolean;
     readonly arrayEditable?: boolean;
     readonly fetcherSuffix?: string;
-    readonly scalarTypeMap: {[key: string]: 'string' | 'number' | 'boolean'};
+    readonly scalarTypeMap?: {[key: string]: 'string' | 'number' | 'boolean'};
     readonly idFieldMap?: {[key: string]: string};
     readonly defaultFetcherExcludeMap?: {[key: string]: string[]}
 }
@@ -121,8 +121,7 @@ export function validateConfig(
                 }
                 break;
             case 'recreateTargetDir':
-            case 'excludedOperations':  
-            case 'excludedTypes':  
+            case 'excludedOperations':
                 console.warn(`"confg.${key}" is deprecated`);
                 break;
             default:
@@ -153,7 +152,7 @@ export function validateConfigAndSchema(
             const fieldMap = type.getFields();
             for (const fieldName in fieldMap) {
                 const field = fieldMap[fieldName]!;
-                if (BUILT_IN_FEILDS.has(field.name)) {
+                if (BUILT_IN_FIELDS.has(field.name)) {
                     throw new Error(
                         `Illegal field '${field.name}' of type '${type.name}', ` +
                         "it's name is protected by 'graphql-ts-client-api', please change the server-side app"
@@ -221,8 +220,8 @@ export function validateConfigAndSchema(
     }
 }
 
-const INDENT_REGEXP = /^( |\t)+$/;
-const BUILT_IN_FEILDS = new Set<string>([
+const INDENT_REGEXP = /^[ \t]+$/;
+const BUILT_IN_FIELDS = new Set<string>([
     "fetchedEntityType",
     "_prev",
     "_negative",
