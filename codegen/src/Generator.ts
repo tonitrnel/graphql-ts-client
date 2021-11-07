@@ -8,9 +8,9 @@
  * 2. Automatically infers the type of the returned data according to the strongly typed query
  */
 
-import { GraphQLArgument, GraphQLEnumType, GraphQLField, GraphQLInputObjectType, GraphQLInterfaceType, GraphQLList, GraphQLNamedType, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLType, GraphQLUnionType } from "graphql";
+import { GraphQLEnumType, GraphQLField, GraphQLInputObjectType, GraphQLInterfaceType, GraphQLList, GraphQLNamedType, GraphQLNonNull, GraphQLObjectType, GraphQLSchema, GraphQLString, GraphQLType, GraphQLUnionType } from "graphql";
 import { GeneratorConfig, validateConfig, validateConfigAndSchema } from "./GeneratorConfig";
-import { mkdir, rmdir, access, createWriteStream, WriteStream } from "fs";
+import { mkdir, rm as rmdir, access, createWriteStream, WriteStream } from "fs";
 import { promisify } from "util";
 import { join } from "path";
 import { FetcherWriter } from "./FetcherWriter";
@@ -145,14 +145,14 @@ export abstract class Generator {
 
         promises.push(this.generateCommonTypes(schema, inheritanceInfo));
 
-        this.generateServices(ctx, promises);
+        await this.generateServices(ctx, promises);
 
         promises.push(this.writeIndex(schema));
 
         await Promise.all(promises);
     }
 
-    protected createFetcheWriter(
+    protected createFetchWriter(
         modelType: GraphQLObjectType | GraphQLInterfaceType | GraphQLUnionType,
         ctx: FetcherContext,
         stream: WriteStream,
@@ -193,7 +193,7 @@ export abstract class Generator {
                 const stream = createStreamAndLog(
                     join(dir, `${type.name}${this.config?.fetcherSuffix ?? "Fetcher"}.ts`)
                 );
-                const writer = this.createFetcheWriter(
+                const writer = this.createFetchWriter(
                     type, 
                     ctx,
                     stream, 
@@ -316,7 +316,7 @@ export abstract class Generator {
             const error = ex as NodeJS.ErrnoException;
             if (error.code === "ENOENT") {
                 console.log(`No directory "${dir}", create it`);
-                await mkdirAsync(dir);
+                await mkdirAsync(dir, { recursive: true });
             } else {
                 throw ex;
             }
