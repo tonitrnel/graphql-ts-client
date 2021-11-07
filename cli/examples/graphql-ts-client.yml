@@ -1,0 +1,3 @@
+generator: "AsyncGenerator"
+schema: "./schema.docs.graphql"
+targetDir: "./src/__generated"
